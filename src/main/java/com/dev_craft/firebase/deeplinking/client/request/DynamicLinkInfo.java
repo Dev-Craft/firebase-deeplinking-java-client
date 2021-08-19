@@ -1,4 +1,4 @@
-package com.codehospitality.deeplinking.request;
+package com.dev_craft.firebase.deeplinking.client.request;
 
 import lombok.Data;
 

@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-group 'com.codehospitality.deeplinking'
-version '1.0-SNAPSHOT'
+group 'com.dev_craft.firebase.deeplinking.client'
+version '1.0'
 
 configurations {
     compileOnly {
@@ -17,10 +17,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-core:5.1.9.RELEASE'
-    implementation 'org.springframework:spring-web:5.1.9.RELEASE'
+    implementation 'org.springframework:spring-core:5.3.9'
+    implementation 'org.springframework:spring-web:5.3.9'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
 
 }

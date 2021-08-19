@@ -1,12 +1,13 @@
-package com.codehospitality.deeplinking;
+package com.dev_craft.firebase.deeplinking.client;
 
-import com.codehospitality.deeplinking.request.DeepLinkRequest;
-import com.codehospitality.deeplinking.response.DeepLinkResponse;
+import com.dev_craft.firebase.deeplinking.client.exceptions.CustomException;
+import com.dev_craft.firebase.deeplinking.client.request.DeepLinkCreationRequest;
+import com.dev_craft.firebase.deeplinking.client.response.DeepLinkCreationResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.*;
@@ -14,7 +15,6 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.Map;
 
 public class DeepLinkingClient {
@@ -24,47 +24,44 @@ public class DeepLinkingClient {
     private final String apiKey;
     private final String FIREBASE_DEEP_LINKING_URL = "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key={key}";
 
-    public DeepLinkingClient(String apiKey) {
+    public DeepLinkingClient(String apiKey, boolean trustAllCertificates) {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
         this.apiKey = apiKey;
+
+        if (trustAllCertificates) {
+            trustAllCertificates();
+        }
     }
 
-    public DeepLinkResponse generateShortLink(String domainUriPrefix, String link, String androidPackageName, String iosBundleId) {
+    public DeepLinkCreationResponse generateShortLink(DeepLinkCreationRequest request) {
         try {
-            trustAllCertificates();
-            final HttpEntity<String> body = toJsonBody(domainUriPrefix, link, androidPackageName, iosBundleId);
-            final Map<String, Object> params = new HashMap<>();
-            params.put("key", apiKey);
+            final HttpEntity<String> body = toJsonBody(request);
+            final Map<String, Object> params = Map.of("key", apiKey);
             final ResponseEntity<String> response = restTemplate.exchange(FIREBASE_DEEP_LINKING_URL, HttpMethod.POST, body, String.class, params);
             if (response.getBody() != null) {
-                return fetch(response.getBody());
+                return parseJson(response.getBody());
             }
-        } catch (HttpClientErrorException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new CustomException(e.getMessage());
         }
         return null;
     }
 
-    private HttpEntity<String> toJsonBody(String domainUriPrefix, String link, String androidPackageName, String iosBundleId) {
-        final DeepLinkRequest request = new DeepLinkRequest(domainUriPrefix, link, androidPackageName, iosBundleId);
-        final String body = toJson(request);
-        return new HttpEntity<>(body);
-    }
-
-    private String toJson(DeepLinkRequest request) {
+    private HttpEntity<String> toJsonBody(DeepLinkCreationRequest request) {
         try {
-            return objectMapper.writeValueAsString(request);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            final String body = objectMapper.writeValueAsString(request);
+            return new HttpEntity<>(body);
+        } catch (JsonProcessingException e) {
+            throw new CustomException(e.getMessage());
         }
     }
 
-    private DeepLinkResponse fetch(String response) {
+    private DeepLinkCreationResponse parseJson(String response) {
         try {
-            return objectMapper.readValue(response, DeepLinkResponse.class);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return objectMapper.readValue(response, DeepLinkCreationResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new CustomException(e.getMessage());
         }
     }
 
