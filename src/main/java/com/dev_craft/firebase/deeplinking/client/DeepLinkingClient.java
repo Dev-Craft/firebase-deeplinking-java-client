@@ -1,6 +1,6 @@
 package com.dev_craft.firebase.deeplinking.client;
 
-import com.dev_craft.firebase.deeplinking.client.exceptions.CustomException;
+import com.dev_craft.firebase.deeplinking.client.exceptions.FirebaseDeepLinkingClientException;
 import com.dev_craft.firebase.deeplinking.client.request.DeepLinkCreationRequest;
 import com.dev_craft.firebase.deeplinking.client.response.DeepLinkCreationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,7 +43,7 @@ public class DeepLinkingClient {
                 return parseJson(response.getBody());
             }
         } catch (Exception e) {
-            throw new CustomException(e.getMessage());
+            throw new FirebaseDeepLinkingClientException(e.getMessage());
         }
         return null;
     }
@@ -53,7 +53,7 @@ public class DeepLinkingClient {
             final String body = objectMapper.writeValueAsString(request);
             return new HttpEntity<>(body);
         } catch (JsonProcessingException e) {
-            throw new CustomException(e.getMessage());
+            throw new FirebaseDeepLinkingClientException(e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class DeepLinkingClient {
         try {
             return objectMapper.readValue(response, DeepLinkCreationResponse.class);
         } catch (JsonProcessingException e) {
-            throw new CustomException(e.getMessage());
+            throw new FirebaseDeepLinkingClientException(e.getMessage());
         }
     }
 
