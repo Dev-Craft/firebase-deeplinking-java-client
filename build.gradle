@@ -17,6 +17,10 @@ publishing {
     }
 }
 
+javadoc {
+    options.addBooleanOption('html5', true)
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
@@ -28,7 +32,7 @@ if(hasSigningKey) {
 }
 void sign(Project project) {
     project.signing {
-        required { project.gradle.taskGraph.hasTask("required") }
+        required { project.gradle.taskGraph.hasTask("publish") }
         def signingKeyId = project.findProperty("signingKeyId")
         def signingKey = project.findProperty("signingKey")
         def signingPassword = project.findProperty("signingPassword")
@@ -45,7 +49,8 @@ project.plugins.withType(MavenPublishPlugin).all {
     PublishingExtension publishing = project.extensions.getByType(PublishingExtension)
     publishing.publications.withType(MavenPublication).all { mavenPublication ->
         mavenPublication.pom {
-            description = "Firebase Deep Linking Java Client"
+            name = "Firebase Deep Linking Java Client"
+            description = name
             url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
             licenses {
                 license {
@@ -53,31 +58,19 @@ project.plugins.withType(MavenPublishPlugin).all {
                     url = "https://www.apache.org/licenses/LICENSE-2.0"
                 }
             }
-
             developers {
                 developer {
                     id = "Tsvetelinna"
                     name = "Tsvetelina Stoilova"
-                    email = "Tsvetelinna@noreply.github.com"
                 }
             }
-
             scm {
-                connection 'scm:svn:https://github.com/Dev-Craft/firebase-deeplinking-java-client/'
-                developerConnection 'scm:svn:https://github.com/Dev-Craft/firebase-deeplinking-java-client/'
-                url 'https://github.com/Dev-Craft/firebase-deeplinking-java-client/'
+                connection = "scm:git:https://github.com/Dev-Craft/firebase-deeplinking-java-client"
+                developerConnection = "scm:git:ssh://github.com/Dev-Craft/firebase-deeplinking-java-client.git"
+                url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
             }
         }
     }
-}
-
-nexusPublishing {
-    repositories {
-        sonatype()    //sonatypeUsername and sonatypePassword properties are used automatically
-
-    }
-    connectTimeout = Duration.ofMinutes(3)
-    clientTimeout = Duration.ofMinutes(3)
 }
 
 
