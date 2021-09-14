@@ -1,4 +1,4 @@
-package com.dev_craft.firebase.deeplinking.client.request;
+package io.github.dev_craft.firebase.deeplinking.client.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

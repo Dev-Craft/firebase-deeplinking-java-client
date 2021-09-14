@@ -1,8 +1,8 @@
-package com.dev_craft.firebase.deeplinking.client;
+package io.github.dev_craft.firebase.deeplinking.client;
 
-import com.dev_craft.firebase.deeplinking.client.exceptions.FirebaseDeepLinkingClientException;
-import com.dev_craft.firebase.deeplinking.client.request.DeepLinkCreationRequest;
-import com.dev_craft.firebase.deeplinking.client.response.DeepLinkCreationResponse;
+import io.github.dev_craft.firebase.deeplinking.client.exceptions.FirebaseDeepLinkingClientException;
+import io.github.dev_craft.firebase.deeplinking.client.request.DeepLinkCreationRequest;
+import io.github.dev_craft.firebase.deeplinking.client.response.DeepLinkCreationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;

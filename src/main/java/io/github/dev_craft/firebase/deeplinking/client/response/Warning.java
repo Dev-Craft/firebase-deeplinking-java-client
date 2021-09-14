@@ -1,4 +1,4 @@
-package com.dev_craft.firebase.deeplinking.client.response;
+package io.github.dev_craft.firebase.deeplinking.client.response;
 
 import lombok.Data;
 

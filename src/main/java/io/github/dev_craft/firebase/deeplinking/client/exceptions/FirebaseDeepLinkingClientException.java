@@ -1,4 +1,4 @@
-package com.dev_craft.firebase.deeplinking.client.exceptions;
+package io.github.dev_craft.firebase.deeplinking.client.exceptions;
 
 
 public class FirebaseDeepLinkingClientException extends RuntimeException {
