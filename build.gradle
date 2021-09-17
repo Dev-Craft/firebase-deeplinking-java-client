@@ -15,20 +15,20 @@ repositories {
     mavenCentral()
 }
 
-group = "io.github.dev-craft"
-archivesBaseName = "firebase.deeplinking.client"
-version = "1.0"
+group = 'io.github.dev-craft'
+archivesBaseName = 'firebase.deeplinking.client'
+version = '1.0'
 
 modifyPom {
     project {
-        name = "Firebase Deep Linking Java Client"
-        description = "Firebase Deep Linking Java Client"
-        url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
+        name = 'Firebase Deep Linking Java Client'
+        description = 'Firebase Deep Linking Java Client'
+        url = 'https://github.com/Dev-Craft/firebase-deeplinking-java-client'
 
         scm {
-            url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
-            connection = "scm:https://github.com/Dev-Craft/firebase-deeplinking-java-client.git"
-            developerConnection = "scm:git://github.com/Dev-Craft/firebase-deeplinking-java-client.git"
+            url = 'https://github.com/Dev-Craft/firebase-deeplinking-java-client'
+            connection = 'scm:https://github.com/Dev-Craft/firebase-deeplinking-java-client.git'
+            developerConnection = 'scm:git://github.com/Dev-Craft/firebase-deeplinking-java-client.git'
         }
 
         licenses {
@@ -41,8 +41,8 @@ modifyPom {
 
         developers {
             developer {
-                id = "Tsvetelinna"
-                name = "Tsvetelina Stoilova"
+                id = 'Tsvetelinna'
+                name = 'Tsvetelina Stoilova'
                 email = 'cvet@dev-craft.com'
             }
         }
