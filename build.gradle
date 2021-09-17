@@ -1,87 +1,70 @@
-plugins {
-    id "java"
-    id "signing"
-    id "maven-publish"
-    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
+
+apply plugin: 'com.bmuschko.nexus'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
 }
 
 group = "io.github.dev-craft"
 archivesBaseName = "firebase.deeplinking.client"
 version = "1.0"
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+modifyPom {
+    project {
+        name = "Firebase Deep Linking Java Client"
+        description = "Firebase Deep Linking Java Client"
+        url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
 
-javadoc {
-    options.addBooleanOption('html5', true)
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-def hasSigningKey = project.hasProperty("signingKeyId") || project.hasProperty("signingKey")
-if(hasSigningKey) {
-    sign(project)
-}
-void sign(Project project) {
-    project.signing {
-        required { project.gradle.taskGraph.hasTask("publish") }
-        def signingKeyId = project.findProperty("signingKeyId")
-        def signingKey = project.findProperty("signingKey")
-        def signingPassword = project.findProperty("signingPassword")
-        if (signingKeyId) {
-            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        } else if (signingKey) {
-            useInMemoryPgpKeys(signingKey, signingPassword)
-        }
-        sign publishing.publications.maven
-    }
-}
-
-project.plugins.withType(MavenPublishPlugin).all {
-    PublishingExtension publishing = project.extensions.getByType(PublishingExtension)
-    publishing.publications.withType(MavenPublication).all { mavenPublication ->
-        mavenPublication.pom {
-            name = "Firebase Deep Linking Java Client"
-            description = name
+        scm {
             url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
-            licenses {
-                license {
-                    name = "The Apache License, Version 2.0"
-                    url = "https://www.apache.org/licenses/LICENSE-2.0"
-                }
+            connection = "scm:https://github.com/Dev-Craft/firebase-deeplinking-java-client.git"
+            developerConnection = "scm:git://github.com/Dev-Craft/firebase-deeplinking-java-client.git"
+        }
+
+        licenses {
+            license {
+                name = 'The Apache Software License, Version 2.0'
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution = 'repo'
             }
-            developers {
-                developer {
-                    id = "Tsvetelinna"
-                    name = "Tsvetelina Stoilova"
-                }
-            }
-            scm {
-                connection = "scm:git:https://github.com/Dev-Craft/firebase-deeplinking-java-client"
-                developerConnection = "scm:git:ssh://github.com/Dev-Craft/firebase-deeplinking-java-client.git"
-                url = "https://github.com/Dev-Craft/firebase-deeplinking-java-client"
+        }
+
+        developers {
+            developer {
+                id = "Tsvetelinna"
+                name = "Tsvetelina Stoilova"
+                email = 'cvet@dev-craft.com'
             }
         }
     }
 }
 
+extraArchive {
+    sources = true
+    tests = true
+    javadoc = true
+}
+
+nexus {
+    sign = true
+    repositoryUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+    snapshotRepositoryUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+}
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -91,4 +74,3 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
-
