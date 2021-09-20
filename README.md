@@ -1,5 +1,7 @@
 # Java Client for Firebase Dynamic Links
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.dev-craft/firebase.deeplinking.client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.dev-craft/firebase.deeplinking.client)
+
 ## Gradle
 ```
 repositories {
