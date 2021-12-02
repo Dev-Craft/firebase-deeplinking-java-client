@@ -10,10 +10,14 @@ public class DynamicLinkInfo {
     private AndroidInfo androidInfo;
     private IosInfo iosInfo;
 
-    public DynamicLinkInfo(String domainUriPrefix, String link, String androidPackageName, String iosBundleId) {
+    public DynamicLinkInfo(String domainUriPrefix,
+                           String link,
+                           String androidPackageName,
+                           String iosBundleId,
+                           String iosAppStoreId) {
         this.domainUriPrefix = domainUriPrefix;
         this.link = link;
         this.androidInfo = new AndroidInfo(androidPackageName);
-        this.iosInfo = new IosInfo(iosBundleId);
+        this.iosInfo = new IosInfo(iosBundleId, iosAppStoreId);
     }
 }

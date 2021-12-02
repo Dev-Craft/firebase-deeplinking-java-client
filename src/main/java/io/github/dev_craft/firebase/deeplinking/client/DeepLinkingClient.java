@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.*;
@@ -38,11 +39,15 @@ public class DeepLinkingClient {
         try {
             final HttpEntity<String> body = toJsonBody(request);
             final Map<String, Object> params = Map.of("key", apiKey);
-            final ResponseEntity<String> response = restTemplate.exchange(FIREBASE_DEEP_LINKING_URL, HttpMethod.POST, body, String.class, params);
+            final ResponseEntity<String> response = restTemplate.exchange(FIREBASE_DEEP_LINKING_URL,
+                                                                          HttpMethod.POST,
+                                                                          body,
+                                                                          String.class,
+                                                                          params);
             if (response.getBody() != null) {
                 return parseJson(response.getBody());
             }
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             throw new FirebaseDeepLinkingClientException(e.getMessage());
         }
         return null;

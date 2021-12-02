@@ -7,8 +7,11 @@ public class DeepLinkCreationRequest {
 
     private DynamicLinkInfo dynamicLinkInfo;
 
-    public DeepLinkCreationRequest(String domainUriPrefix, String link, String androidPackageName, String iosBundleId) {
-        this.dynamicLinkInfo = new DynamicLinkInfo(domainUriPrefix, link, androidPackageName, iosBundleId);
+    public DeepLinkCreationRequest(String domainUriPrefix,
+                                   String link,
+                                   String androidPackageName,
+                                   String iosBundleId,
+                                   String iosAppStoreId) {
+        this.dynamicLinkInfo = new DynamicLinkInfo(domainUriPrefix, link, androidPackageName, iosBundleId, iosAppStoreId);
     }
-
 }
