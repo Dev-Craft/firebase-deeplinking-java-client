@@ -17,7 +17,7 @@ repositories {
 
 group = 'io.github.dev-craft'
 archivesBaseName = 'firebase.deeplinking.client'
-version = '1.0'
+version = '1.1'
 
 modifyPom {
     project {
