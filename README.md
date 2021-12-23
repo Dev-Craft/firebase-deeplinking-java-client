@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    compile ('io.github.dev-craft:firebase.deeplinking.client:1.0')
+    compile ('io.github.dev-craft:firebase.deeplinking.client:1.2')
 }
 ```
 
@@ -18,6 +18,6 @@ dependencies {
 <dependency>
   <groupId>io.github.dev-craft</groupId>
   <artifactId>firebase.deeplinking.client</artifactId>
-  <version>1.0</version>
+  <version>1.2</version>
 </dependen
 ```
